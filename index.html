@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafletJS</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        //Inisialisasi Peta [map]
+        var map = L.map('map').setView([-7.7893398, 110.3731155], 12);
+
+        //Basemap
+        // Tile Layer Base Map
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var rupabumiindonesia = L.tileLayer('https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Badan Informasi Geospasial'
+        });
+
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+
+        // Menentukan dan menambahkan basemap ke dalam peta
+        osm.addTo(map);
+
+        //Marker
+        var marker = L.marker([-7.7701422, 110.3778362]);
+        var marker2 = L.marker([-7.5413103, 110.4464149]);
+        var marker3 = L.marker([-7.7558954, 110.6255436]);
+
+        //Menambahkan marker ke dalam peta
+        marker.addTo(map);
+        marker2.addTo(map);
+        marker3.addTo(map);
+
+        // Popup
+        marker.bindPopup("<b>Universitas Gadjah Mada</b><br> adalah universitas negeri tertua dan terbesar di Indonesia yang berlokasi di Yogyakarta. Didirikan pada 19 Desember 1949, kampus yang dijuluki sebagai kampus kerakyatan ini lahir di periode awal kemerdekaan Indonesia sebagai universitas nasional yang berkomitmen pada nilai-nilai perjuangan, Pancasila, dan kerakyatan</b>");
+        marker.openPopup();
+
+        marker2.bindPopup("<b>Gunung Merapi</b><br>adalah gunung berapi paling aktif di Indonesia yang terletak di perbatasan Provinsi Jawa Tengah dan Daerah Istimewa Yogyakarta, dengan ketinggian puncak sekitar 2.930 meter di atas permukaan laut.");
+
+        marker3.bindPopup("<b>Rawa Jombor</b><br>adalah sebuah waduk atau danau buatan luas yang terletak di Desa Krakitan, Kecamatan Bayat, Kabupaten Klaten, Jawa Tengah.</b>");
+
+        // Tooltip
+        marker.bindTooltip("UGM");
+        marker.openTooltip();
+
+        marker2.bindTooltip("Gunung Merapi");
+        marker2.openTooltip();
+
+        marker3.bindTooltip("Rawa Jombor");
+        marker3.openTooltip();
+
+        // Circle
+        var circle = L.circle([-7.5843721, 110.6316376], {
+            color: "#16A085", // warna garis tepi
+            opacity: 1, // opacity garis
+            fillColor: "#1ABC9C", // warna fill
+            fillOpacity: 0.5, // opacity fill
+            radius: 2000, // radius dalam meter
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        //Menambahkan popup pada circle
+        circle.bindPopup("<b>Tulung</b><br>daerah paling dikenal sebagai sebuah kecamatan di bagian utara Kabupaten Klaten, Provinsi Jawa Tengah.");
+
+        // Menambahkan tooltip pada circle
+        circle.bindTooltip("Tulung", { sticky: true });
+        circle.openTooltip();
+
+        // Polyline
+        var vertexPolyline = [
+            [-7.7701422, 110.3778362],
+            [-7.5413103, 110.4464149],
+            [-7.7558954, 110.6255436],
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "red", // warna garis
+            weight: 3, // ketebalan garis
+            opacity: 1, // opacity garis
+        });
+
+        // Menambahkan polyline ke dalam peta
+        polyline.addTo(map);
+
+        //Popup pada polyline
+        polyline.bindPopup("<b>Polyline</b><br>Garis UGM-Merapi");
+
+        //Tooltip pada polyline
+        polyline.bindTooltip("Polyline", { sticky: true });
+
+        // Polygon
+        var vertexPolygon = [
+            [-7.7558954, 110.6255436],
+            [-7.5516472, 110.8238983],
+            [-7.8715582, 110.9124756],
+            [-7.7558954, 110.6255436],
+        ];
+        var polygon = L.polygon(vertexPolygon, {
+            color: "#16A085", // warna garis
+            weight: 3, // ketebalan garis
+            opacity: 1, // opacity garis
+            fillColor: "#1ABC9C", // warna fill
+            fillOpacity: 0.5, // opacity fill
+        });
+
+        // Menambahkan polygon ke dalam peta
+        polygon.addTo(map);
+
+        // Popup pada polygon
+        polygon.bindPopup("<b>Polygon</b><br>Ini adalah popup polygon");
+
+        // Tooltip pada polygon
+        polygon.bindTooltip("Ini adalah tooltip polygon", { sticky: true });
+
+        // Control Layer
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Rupa Bumi Indonesia": rupabumiindonesia,
+            "OpenTopoMap": OpenTopoMap,
+        };
+
+        var overlayMaps = {
+            "UGM": marker,
+            "Gunung Merapi": marker2,
+            "Rawa Jombor": marker3,
+            "Tulung": circle,
+            "Polyline": polyline,
+            "Polygon": polygon,
+        };
+
+        var controllayer = L.control.layers(baseMaps, overlayMaps, { collapsed: false });
+        controllayer.addTo(map);
+
+        //Scale
+        // Scale 
+        var scale = L.control.scale({
+            position: "bottomleft",
+            imperial: false, // menampilkan satuan imperial (yard, feet): hanya menampilkan satuan metrik (meter, kilometer)
+        });
+        scale.addTo(map);
+
+        // Geolocation
+        map.locate({
+            setView: true,
+            maxZoom: 16,
+        });
+
+        // Fungsi untuk menampilkan lokasi
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            // Menampilkan marker pada lokasi 
+            L.marker(e.latlng).addTo(map).bindPopup("Anda berada dalam radius " + radius + " meter dari titik ini").openPopup();
+
+            // Menampilkan circle pada lokasi
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on("locationfound", onLocationFound);
+
+        // Fungsi untuk menampilkan pesan error
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on("locationerror", onLocationError);
+    </script>
+</body>
+
+</html>
